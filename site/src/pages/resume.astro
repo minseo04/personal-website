@@ -24,8 +24,11 @@ const skills = [
     <h1>Resume</h1>
     <p class="lede">
       {SITE.role}
+      {SITE.github && <> · <a href={SITE.github}>GitHub</a></>}
       {SITE.email && <> · <a href={`mailto:${SITE.email}`}>{SITE.email}</a></>}
     </p>
+
+    {SITE.lookingFor && <p>{SITE.lookingFor}</p>}
 
     <h2>Experience</h2>
     <ul class="entry-list">

@@ -1,15 +1,17 @@
 ---
 import Base from '../layouts/Base.astro';
 import { SITE } from '../site.ts';
+import { PROJECTS } from '../data/projects.ts';
 import { getCollection } from 'astro:content';
 import briefings from '../data/briefings.json';
 
-const notDraft = <T extends { data: { draft: boolean } }>(e: T) => import.meta.env.DEV || !e.data.draft;
+const notDraft = <T extends { data: { draft: boolean } }>(e: T) =>
+  import.meta.env.DEV || !e.data.draft;
 const byDate = (a: { data: { date: Date } }, b: { data: { date: Date } }) =>
   b.data.date.getTime() - a.data.date.getTime();
 
+const featured = PROJECTS.filter((p) => p.featured);
 const recentLog = (await getCollection('study-log')).filter(notDraft).sort(byDate).slice(0, 3);
-const recentWriting = (await getCollection('writing')).filter(notDraft).sort(byDate).slice(0, 3);
 const latest = briefings[0];
 ---
 
@@ -18,23 +20,59 @@ const latest = briefings[0];
     <h1>{SITE.name}</h1>
     <p class="lede">{SITE.role}</p>
 
-    <p>{SITE.tagline}</p>
+    <p>
+      Most of what I build sits between a model and the person using it: the harness, the
+      tooling, the interface. That is the layer where the interesting problems are right now —
+      a capable model behind a bad harness is a bad product, and most of the difficulty is in
+      the plumbing rather than the weights.
+    </p>
 
-    <!-- TODO: replace this with a few real paragraphs about yourself. -->
+    <!-- TODO: one paragraph of your own. Where you study or work, what brought you
+         to this, and anything a reviewer would not guess from the projects below. -->
     <p class="muted">
       <em>
-        Placeholder. Write a short introduction here: what you work on, what you are
-        deliberately getting better at, and what you would like people to contact you about.
+        Placeholder — write one paragraph here about your background: where you study or
+        work, and what pulled you toward this kind of work.
       </em>
     </p>
 
-    <h2>Latest briefing</h2>
+    <h2>What I build</h2>
+    <ul class="entry-list">
+      {
+        featured.map((p) => (
+          <li>
+            <h3>{p.href ? <a href={p.href}>{p.name}</a> : p.name}</h3>
+            <p>{p.blurb}</p>
+            <div class="tags">{p.tags.map((t) => <span class="tag">{t}</span>)}</div>
+          </li>
+        ))
+      }
+    </ul>
+    <p><a href="/projects">All projects &rarr;</a></p>
+
+    {
+      SITE.lookingFor && (
+        <>
+          <h2>What I am looking for</h2>
+          <p>{SITE.lookingFor}</p>
+        </>
+      )
+    }
+
+    <h2>How I keep current</h2>
+    <p>
+      I built a tool that reads what I have actually been asking AI assistants about, keeps a
+      decaying map of those interests, and assembles a short daily briefing against it from
+      arXiv, Hacker News, GitHub releases and blog feeds. It is the most honest record I have
+      of what I am working on, because I did not write it — my own questions did.
+    </p>
+
     {
       latest ? (
         <p>
-          <a href={`/briefings/${latest.date}`}>{latest.date}</a>
-          <span class="muted"> — {latest.items.length} items:{' '}
-            {latest.items.slice(0, 3).map((i) => i.title).join('; ')}
+          Latest briefing: <a href={`/briefings/${latest.date}`}>{latest.date}</a>
+          <span class="muted"> — {latest.items.length} items, including{' '}
+            {latest.items.slice(0, 2).map((i) => i.title).join('; ')}.
           </span>
         </p>
       ) : (
@@ -42,37 +80,20 @@ const latest = briefings[0];
       )
     }
 
-    <h2>Recent study log</h2>
     {
-      recentLog.length ? (
-        <ul class="entry-list">
-          {recentLog.map((e) => (
-            <li>
-              <h3><a href={`/study-log/${e.id}`}>{e.data.title}</a></h3>
-              <span class="date">{e.data.date.toISOString().slice(0, 10)}</span>
-              {e.data.summary && <p>{e.data.summary}</p>}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p class="muted">Nothing logged yet.</p>
-      )
-    }
-
-    <h2>Recent writing</h2>
-    {
-      recentWriting.length ? (
-        <ul class="entry-list">
-          {recentWriting.map((e) => (
-            <li>
-              <h3><a href={`/writing/${e.id}`}>{e.data.title}</a></h3>
-              <span class="date">{e.data.date.toISOString().slice(0, 10)}</span>
-              {e.data.summary && <p>{e.data.summary}</p>}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p class="muted">Nothing published yet.</p>
+      recentLog.length > 0 && (
+        <>
+          <h3>Recent notes</h3>
+          <ul class="entry-list">
+            {recentLog.map((e) => (
+              <li>
+                <h3><a href={`/study-log/${e.id}`}>{e.data.title}</a></h3>
+                <span class="date">{e.data.date.toISOString().slice(0, 10)}</span>
+                {e.data.summary && <p>{e.data.summary}</p>}
+              </li>
+            ))}
+          </ul>
+        </>
       )
     }
   </div>

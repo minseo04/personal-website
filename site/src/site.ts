@@ -1,21 +1,39 @@
 /**
  * Everything personal lives here, so it is changed in one place rather than
- * hunted through templates. The TODOs are the only things you must fill in
- * before this site is really yours.
+ * hunted through templates.
+ *
+ * Only the two fields marked REQUIRED must be filled in. Every link below is
+ * optional -- an empty string simply does not render, so the contact row grows
+ * as you add to it.
  */
 export const SITE = {
-  name: 'Your Name', // TODO
-  role: 'Building agent harnesses and developer tools', // TODO
+  /** REQUIRED. Appears in the header, the page titles and the footer. */
+  name: 'TODO: your name',
+
+  /** The one line under your name. Say what you build, not what you are. */
+  role: 'I build developer tools for working with AI agents.',
+
+  /** Used as the default meta description across the site. */
   tagline:
-    'I work on AI models, agent harnesses, and the tooling around them, and I keep a public log of what I am learning.', // TODO
+    'I build developer tools for working with AI agents, and keep a public log of what I am learning about models, harnesses and agent design.',
 
-  // Leave a field empty and its link simply will not render.
-  email: '', // TODO -- publishing an address invites spam; a contact form or nothing is fine
-  github: '', // TODO e.g. 'https://github.com/yourhandle'
+  /**
+   * Shown on the home page and the resume. Delete it once you are not looking
+   * -- a stale availability line is worse than none.
+   */
+  lookingFor:
+    'I am looking for internship and research positions in AI systems, agent infrastructure, and developer tooling.',
+
+  // ---- contact ----
+  // Starting with GitHub only. Fill any of the others in later and they appear
+  // in the footer automatically; no template changes needed.
+  /** REQUIRED. e.g. 'https://github.com/yourhandle' */
+  github: '',
   linkedin: '',
+  email: '', // publishing an address invites scrapers; a separate one is wise
   x: '',
+  scholar: '',
 
-  // Shown in the footer.
   startYear: 2026,
 };
 
