@@ -1,0 +1,34 @@
+---
+import Base from '../../layouts/Base.astro';
+import BriefingItem from '../../components/BriefingItem.astro';
+import briefings from '../../data/briefings.json';
+
+export function getStaticPaths() {
+  return briefings.map((digest, i) => ({
+    params: { date: digest.date },
+    props: {
+      digest,
+      newer: briefings[i - 1] ?? null,
+      older: briefings[i + 1] ?? null,
+    },
+  }));
+}
+
+const { digest, newer, older } = Astro.props;
+---
+
+<Base title={`Briefing ${digest.date}`} description={`Research briefing for ${digest.date}.`}>
+  <div class="wrap">
+    <p><a href="/briefings">&larr; Briefings</a></p>
+    <h1>{digest.date}</h1>
+    <p class="lede">{digest.items.length} items.</p>
+
+    {digest.items.map((item) => <BriefingItem item={item} />)}
+
+    <nav class="ui" style="display:flex;gap:14px;margin-top:32px;font-size:14px">
+      {older && <a href={`/briefings/${older.date}`}>&larr; {older.date}</a>}
+      <span style="margin-left:auto"></span>
+      {newer && <a href={`/briefings/${newer.date}`}>{newer.date} &rarr;</a>}
+    </nav>
+  </div>
+</Base>

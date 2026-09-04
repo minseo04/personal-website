@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.astro/
+.vercel/
+.env
+*.log
+
+# The brain's database holds verbatim prompts you typed to Claude Code.
+# Ignored here as well as in daily_newsletter/.gitignore, deliberately.
+daily_newsletter/data/

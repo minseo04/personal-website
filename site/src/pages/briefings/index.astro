@@ -1,0 +1,52 @@
+---
+import Base from '../../layouts/Base.astro';
+import briefings from '../../data/briefings.json';
+
+const total = briefings.reduce((n, d) => n + d.items.length, 0);
+---
+
+<Base
+  title="Briefings"
+  description="A daily research briefing assembled from what I have actually been asking about."
+>
+  <div class="wrap">
+    <h1>Briefings</h1>
+    <p class="lede">
+      A short daily briefing on AI models, agent harnesses and agent design, assembled by a
+      tool I built. It reads what I have actually been asking AI assistants about, keeps a
+      decaying map of those interests, and searches arXiv, Hacker News, GitHub releases and
+      blog feeds against it.
+    </p>
+    <p class="muted" style="font-size:0.94rem">
+      Only the finished briefings are published. The interest map itself, and the prompts it
+      is built from, never leave my machine. Source is in
+      <a href="/projects">daily_newsletter</a>.
+    </p>
+
+    {
+      briefings.length ? (
+        <>
+          <p class="date">{briefings.length} briefings · {total} items</p>
+          <ul class="entry-list">
+            {briefings.map((d) => (
+              <li>
+                <h3><a href={`/briefings/${d.date}`}>{d.date}</a></h3>
+                <p>{d.items.map((i) => i.title).join(' · ')}</p>
+                <div class="tags">
+                  {[...new Set(d.items.map((i) => i.kind))].map((k) => (
+                    <span class="tag">{k}</span>
+                  ))}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : (
+        <p class="empty-note">
+          No briefings published yet. Run <code>npm run publish</code> in
+          <code>daily_newsletter/</code>, then rebuild the site.
+        </p>
+      )
+    }
+  </div>
+</Base>

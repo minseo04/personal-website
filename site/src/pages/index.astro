@@ -1,0 +1,79 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../site.ts';
+import { getCollection } from 'astro:content';
+import briefings from '../data/briefings.json';
+
+const notDraft = <T extends { data: { draft: boolean } }>(e: T) => import.meta.env.DEV || !e.data.draft;
+const byDate = (a: { data: { date: Date } }, b: { data: { date: Date } }) =>
+  b.data.date.getTime() - a.data.date.getTime();
+
+const recentLog = (await getCollection('study-log')).filter(notDraft).sort(byDate).slice(0, 3);
+const recentWriting = (await getCollection('writing')).filter(notDraft).sort(byDate).slice(0, 3);
+const latest = briefings[0];
+---
+
+<Base>
+  <div class="wrap">
+    <h1>{SITE.name}</h1>
+    <p class="lede">{SITE.role}</p>
+
+    <p>{SITE.tagline}</p>
+
+    <!-- TODO: replace this with a few real paragraphs about yourself. -->
+    <p class="muted">
+      <em>
+        Placeholder. Write a short introduction here: what you work on, what you are
+        deliberately getting better at, and what you would like people to contact you about.
+      </em>
+    </p>
+
+    <h2>Latest briefing</h2>
+    {
+      latest ? (
+        <p>
+          <a href={`/briefings/${latest.date}`}>{latest.date}</a>
+          <span class="muted"> — {latest.items.length} items:{' '}
+            {latest.items.slice(0, 3).map((i) => i.title).join('; ')}
+          </span>
+        </p>
+      ) : (
+        <p class="muted">No briefings published yet.</p>
+      )
+    }
+
+    <h2>Recent study log</h2>
+    {
+      recentLog.length ? (
+        <ul class="entry-list">
+          {recentLog.map((e) => (
+            <li>
+              <h3><a href={`/study-log/${e.id}`}>{e.data.title}</a></h3>
+              <span class="date">{e.data.date.toISOString().slice(0, 10)}</span>
+              {e.data.summary && <p>{e.data.summary}</p>}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="muted">Nothing logged yet.</p>
+      )
+    }
+
+    <h2>Recent writing</h2>
+    {
+      recentWriting.length ? (
+        <ul class="entry-list">
+          {recentWriting.map((e) => (
+            <li>
+              <h3><a href={`/writing/${e.id}`}>{e.data.title}</a></h3>
+              <span class="date">{e.data.date.toISOString().slice(0, 10)}</span>
+              {e.data.summary && <p>{e.data.summary}</p>}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="muted">Nothing published yet.</p>
+      )
+    }
+  </div>
+</Base>

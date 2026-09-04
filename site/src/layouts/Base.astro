@@ -1,0 +1,60 @@
+---
+import '../styles/global.css';
+import { NAV, SITE } from '../site.ts';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description = SITE.tagline } = Astro.props;
+const pageTitle = title ? `${title} · ${SITE.name}` : SITE.name;
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const current = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <header class="site-head">
+      <div class="wrap">
+        <a class="brand" href="/">{SITE.name}</a>
+        <nav>
+          {
+            NAV.map((n) => (
+              <a href={n.href} aria-current={current(n.href) ? 'page' : undefined}>
+                {n.label}
+              </a>
+            ))
+          }
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-foot">
+      <div class="wrap">
+        <span>&copy; {year} {SITE.name}</span>
+        <span class="spacer"></span>
+        {SITE.github && <a href={SITE.github}>GitHub</a>}
+        {SITE.linkedin && <a href={SITE.linkedin}>LinkedIn</a>}
+        {SITE.x && <a href={SITE.x}>X</a>}
+        {SITE.email && <a href={`mailto:${SITE.email}`}>Email</a>}
+      </div>
+    </footer>
+  </body>
+</html>

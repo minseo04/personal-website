@@ -1,0 +1,26 @@
+{
+  "name": "daily-newsletter",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A secondary brain that learns what you care about from your AI conversations and briefs you on it daily.",
+  "scripts": {
+    "brain": "tsx src/cli.ts",
+    "ingest": "tsx src/cli.ts ingest",
+    "digest": "tsx src/cli.ts digest",
+    "serve": "tsx src/cli.ts serve",
+    "publish": "tsx src/cli.ts publish",
+    "status": "tsx src/cli.ts status",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "fast-xml-parser": "^5.2.5"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.7.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.9.2"
+  }
+}

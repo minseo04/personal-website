@@ -1,0 +1,72 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../site.ts';
+
+// TODO: fill these in. Everything here is placeholder scaffolding -- nothing
+// was invented about your actual history.
+const education = [
+  { what: 'TODO: degree, institution', when: 'TODO', detail: 'TODO: focus, thesis, honours.' },
+];
+
+const experience = [
+  { what: 'TODO: role, organisation', when: 'TODO', detail: 'TODO: what you owned and what shipped.' },
+];
+
+const skills = [
+  { group: 'Languages', items: ['TypeScript', 'Python'] },
+  { group: 'AI / agents', items: ['agent harnesses', 'tool use', 'evals'] },
+  { group: 'Other', items: ['TODO'] },
+];
+---
+
+<Base title="Resume" description="Background and experience.">
+  <div class="wrap">
+    <h1>Resume</h1>
+    <p class="lede">
+      {SITE.role}
+      {SITE.email && <> · <a href={`mailto:${SITE.email}`}>{SITE.email}</a></>}
+    </p>
+
+    <h2>Experience</h2>
+    <ul class="entry-list">
+      {
+        experience.map((e) => (
+          <li>
+            <h3>{e.what}</h3>
+            <span class="date">{e.when}</span>
+            <p>{e.detail}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <h2>Education</h2>
+    <ul class="entry-list">
+      {
+        education.map((e) => (
+          <li>
+            <h3>{e.what}</h3>
+            <span class="date">{e.when}</span>
+            <p>{e.detail}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <h2>Skills</h2>
+    <ul class="entry-list">
+      {
+        skills.map((s) => (
+          <li>
+            <h3>{s.group}</h3>
+            <div class="tags">{s.items.map((i) => <span class="tag">{i}</span>)}</div>
+          </li>
+        ))
+      }
+    </ul>
+
+    <!-- TODO: drop a PDF at public/resume.pdf to enable this link.
+    <p><a href="/resume.pdf">Download as PDF</a></p>
+    -->
+  </div>
+</Base>

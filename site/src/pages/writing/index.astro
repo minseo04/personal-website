@@ -1,0 +1,33 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('writing'))
+  .filter((e) => import.meta.env.DEV || !e.data.draft)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<Base title="Writing" description="Essays and posts.">
+  <div class="wrap">
+    <h1>Writing</h1>
+    <p class="lede">Finished pieces. Rougher, in-progress notes live in the <a href="/study-log">study log</a>.</p>
+
+    {
+      posts.length ? (
+        <ul class="entry-list">
+          {posts.map((p) => (
+            <li>
+              <h3><a href={`/writing/${p.id}`}>{p.data.title}</a></h3>
+              <span class="date">{p.data.date.toISOString().slice(0, 10)}</span>
+              {p.data.summary && <p>{p.data.summary}</p>}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="empty-note">
+          No posts yet. Add a markdown file to <code>src/content/writing/</code>.
+        </p>
+      )
+    }
+  </div>
+</Base>

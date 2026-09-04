@@ -1,0 +1,57 @@
+---
+import Base from '../layouts/Base.astro';
+
+// TODO: these are stubs built from your repo names. Fill in what each one
+// actually does, and drop any you would rather not show.
+const projects = [
+  {
+    name: 'Harness IDE',
+    blurb: 'An IDE built around agent tool-calls rather than files.',
+    detail: 'TODO: what problem it solves, what is interesting about the design.',
+    link: '',
+    tags: ['agents', 'harness', 'developer tools'],
+  },
+  {
+    name: 'blockboard',
+    blurb: 'A block-based canvas for composing work.',
+    detail: 'TODO: describe the project.',
+    link: '',
+    tags: ['visual programming', 'UI'],
+  },
+  {
+    name: 'skillgraph-recruit',
+    blurb: 'Skill-graph modelling applied to recruiting.',
+    detail: 'TODO: describe the project.',
+    link: '',
+    tags: ['graphs', 'matching'],
+  },
+  {
+    name: 'daily_newsletter',
+    blurb: 'A secondary brain that reads what I ask AI assistants about, builds a decaying map of my interests, and briefs me daily.',
+    detail:
+      'Captures my own prompts from local Claude Code transcripts, has Claude name the knowledge topic behind each one, and weights topics so old interests fade. The map then drives searches across arXiv, Hacker News, GitHub releases and blog feeds, and a second pass writes up the handful of items worth my morning. The briefings on this site are its output.',
+    link: '/briefings',
+    tags: ['agents', 'personal tooling', 'TypeScript'],
+  },
+];
+---
+
+<Base title="Projects" description="Things I have built.">
+  <div class="wrap">
+    <h1>Projects</h1>
+    <p class="lede">Things I have built, and what I learned building them.</p>
+
+    <ul class="entry-list">
+      {
+        projects.map((p) => (
+          <li>
+            <h3>{p.link ? <a href={p.link}>{p.name}</a> : p.name}</h3>
+            <p><strong>{p.blurb}</strong></p>
+            <p>{p.detail}</p>
+            <div class="tags">{p.tags.map((t) => <span class="tag">{t}</span>)}</div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Base>

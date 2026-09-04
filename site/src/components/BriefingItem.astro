@@ -1,0 +1,53 @@
+---
+interface Props {
+  item: {
+    kind: string;
+    topic: string | null;
+    title: string;
+    url: string | null;
+    source: string | null;
+    summary: string;
+    why: string | null;
+    published: string | null;
+  };
+}
+
+const { item } = Astro.props;
+
+const KIND_VARS: Record<string, string> = {
+  announcement: '--k-announcement',
+  'new-research': '--k-new-research',
+  concept: '--k-concept',
+  foundational: '--k-foundational',
+  adjacent: '--k-adjacent',
+};
+
+const colour = `var(${KIND_VARS[item.kind] ?? '--muted'})`;
+
+let host = item.source ?? '';
+if (item.url) {
+  try {
+    host = new URL(item.url).hostname.replace(/^www\./, '');
+  } catch {
+    host = item.source ?? '';
+  }
+}
+---
+
+<article class="item" style={`--kind:${colour}`}>
+  <div class="item-head">
+    <span class="kind">{item.kind}</span>
+    {item.topic && <span class="tag">{item.topic}</span>}
+  </div>
+
+  <h3>
+    {item.url ? <a href={item.url} target="_blank" rel="noopener">{item.title}</a> : item.title}
+  </h3>
+
+  <p>{item.summary}</p>
+  {item.why && <p class="why">{item.why}</p>}
+
+  <p class="src" style="margin:10px 0 0">
+    {host}{item.published ? ` · ${item.published.slice(0, 10)}` : ''}
+  </p>
+</article>

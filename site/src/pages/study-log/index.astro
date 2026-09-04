@@ -1,0 +1,54 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const entries = (await getCollection('study-log'))
+  .filter((e) => import.meta.env.DEV || !e.data.draft)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+/** Group by month so a long log stays scannable. */
+const months = new Map<string, typeof entries>();
+for (const e of entries) {
+  const key = e.data.date.toISOString().slice(0, 7);
+  months.set(key, [...(months.get(key) ?? []), e]);
+}
+const fmtMonth = (key: string) =>
+  new Date(`${key}-01T00:00:00Z`).toLocaleString('en', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+---
+
+<Base title="Study log" description="What I am learning, as I learn it.">
+  <div class="wrap">
+    <h1>Study log</h1>
+    <p class="lede">
+      What I am working through right now — notes as they are, not as finished posts.
+      Polished pieces go in <a href="/writing">writing</a>; the machine-assembled reading
+      queue that feeds a lot of this is in <a href="/briefings">briefings</a>.
+    </p>
+
+    {
+      entries.length ? (
+        [...months.entries()].map(([key, list]) => (
+          <section>
+            <h2>{fmtMonth(key)}</h2>
+            <ul class="entry-list">
+              {list.map((e) => (
+                <li>
+                  <h3><a href={`/study-log/${e.id}`}>{e.data.title}</a></h3>
+                  <span class="date">{e.data.date.toISOString().slice(0, 10)}</span>
+                  {e.data.summary && <p>{e.data.summary}</p>}
+                  {e.data.topics.length > 0 && (
+                    <div class="tags">{e.data.topics.map((t) => <span class="tag">{t}</span>)}</div>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      ) : (
+        <p class="empty-note">
+          Nothing logged yet. Add a markdown file to <code>src/content/study-log/</code>.
+        </p>
+      )
+    }
+  </div>
+</Base>

@@ -1,0 +1,30 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  // Drafts must be filtered here too, not just on the index: without this a
+  // draft still gets a built page and is reachable by direct URL.
+  const entries = (await getCollection('study-log')).filter(
+    (e) => import.meta.env.DEV || !e.data.draft,
+  );
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<Base title={entry.data.title} description={entry.data.summary}>
+  <div class="wrap">
+    <p><a href="/study-log">&larr; Study log</a></p>
+    <h1>{entry.data.title}</h1>
+    <p class="date">{entry.data.date.toISOString().slice(0, 10)}</p>
+    {
+      entry.data.topics.length > 0 && (
+        <div class="tags">{entry.data.topics.map((t) => <span class="tag">{t}</span>)}</div>
+      )
+    }
+    <div class="prose"><Content /></div>
+  </div>
+</Base>

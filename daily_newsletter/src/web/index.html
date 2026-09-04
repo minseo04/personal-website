@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Secondary Brain</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Secondary Brain</h1>
+      <nav>
+        <button class="tab active" data-view="briefing">Briefing</button>
+        <button class="tab" data-view="map">Interest map</button>
+      </nav>
+      <div class="actions">
+        <span id="status" class="status"></span>
+        <button id="refresh" class="ghost" title="Harvest new prompts and update the map">
+          Sync brain
+        </button>
+        <button id="build" class="primary" title="Build a new briefing from your live topics">
+          New briefing
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section id="briefing" class="view">
+        <div class="toolbar">
+          <select id="dates"></select>
+          <span id="digest-meta" class="muted"></span>
+        </div>
+        <div id="items"></div>
+      </section>
+
+      <section id="map" class="view hidden">
+        <div class="map-wrap">
+          <canvas id="graph"></canvas>
+          <aside id="inspector" class="hidden">
+            <button class="close" id="close-inspector">&times;</button>
+            <h3 id="insp-title"></h3>
+            <p id="insp-meta" class="muted"></p>
+            <div class="insp-actions">
+              <button id="insp-pin" class="ghost">Pin</button>
+              <button id="insp-mute" class="ghost">Mute</button>
+            </div>
+            <h4>Where this came from</h4>
+            <ul id="insp-prompts"></ul>
+          </aside>
+        </div>
+        <div class="legend" id="legend"></div>
+      </section>
+    </main>
+
+    <div id="toast" class="toast hidden"></div>
+    <script src="./app.js" type="module"></script>
+  </body>
+</html>

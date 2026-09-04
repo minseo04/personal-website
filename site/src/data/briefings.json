@@ -1,0 +1,84 @@
+[
+  {
+    "date": "2026-09-04",
+    "items": [
+      {
+        "id": "8d16badc12aeebd4",
+        "kind": "announcement",
+        "topic": "Agent harness",
+        "title": "Claude Code v2.1.260: Live Diff Panel and Cache-Miss Diagnostics",
+        "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.260",
+        "source": "github",
+        "summary": "This release adds a diff panel beside the conversation in fullscreen mode that shows uncommitted changes live as Claude edits, toggled with /diff, plus a new field in /cost and the status line that surfaces the likely cause of a prompt-cache miss, such as changed tool definitions or system prompt, or going idle past the cache TTL.",
+        "why": "Both features change how you'll debug your own sessions day to day, since the harness can now explain why its own cache just invalidated.",
+        "published": "2026-09-03T23:48:12Z"
+      },
+      {
+        "id": "7255af111cc57db9",
+        "kind": "new-research",
+        "topic": "Agent harness",
+        "title": "Attacker-Controlled Hooks Can Steer Agent Harnesses",
+        "url": "http://arxiv.org/abs/2609.03884v1",
+        "source": "arxiv",
+        "summary": "The paper identifies the lifecycle-hook update path as a supply-chain attack surface: hooks bind shell commands to events like session start, tool calls, and file edits, run with host privileges, and can fire at times the LLM never observes, yet harnesses trust updates to this configuration blindly. They demonstrate an attacker-controlled hook update steering agent behavior without the model ever seeing the malicious command.",
+        "why": "You configure exactly this hook mechanism in Claude Code, so this is a concrete threat model for a feature you already rely on.",
+        "published": "2026-09-03T14:08:42.000Z"
+      },
+      {
+        "id": "730094be8117eba3",
+        "kind": "new-research",
+        "topic": "Agent harness",
+        "title": "Recursive Agent Harnesses",
+        "url": "http://arxiv.org/abs/2606.13643v1",
+        "source": "arxiv",
+        "summary": "The paper names and studies a pattern where the unit that gets recursively spawned isn't just a model call but a full agent harness with its own filesystem tools, code execution, and reasoning loop, connecting recursive language model (RLM) work on long-context reasoning to production coding agents that spawn subagents, as in Anthropic's dynamic workflows. It characterizes when this nesting actually improves task performance versus just adding coordination overhead.",
+        "why": "This formalizes the subagent-spawning pattern already shipping in Claude Code, giving you a framework for deciding when recursion is worth it in your own harness designs.",
+        "published": "2026-06-11T17:47:30.000Z"
+      },
+      {
+        "id": "b55dc7d9dca505a5",
+        "kind": "concept",
+        "topic": "Agent design",
+        "title": "Orchestrator-Worker vs. Recursive Subagents",
+        "url": null,
+        "source": "claude",
+        "summary": "The common multi-agent pattern is orchestrator-worker: a fixed top-level agent decomposes a task and dispatches to specialized, non-recursive worker agents, giving clean context isolation and parallelism at the cost of a rigid hierarchy. The recursive pattern, as in item 2 above, instead lets the same harness spawn copies of itself to arbitrary depth, trading that rigidity for flexibility but requiring explicit depth and cost controls to avoid runaway spawning.",
+        "why": "This is the conceptual frame you need to place the Recursive Agent Harnesses paper against the more familiar orchestrator pattern you've likely already built.",
+        "published": null
+      },
+      {
+        "id": "6540d7f509265175",
+        "kind": "concept",
+        "topic": "Tool use",
+        "title": "Function Calling, Code Execution, and MCP Are Not the Same Thing",
+        "url": null,
+        "source": "claude",
+        "summary": "Function calling means the model emits a structured JSON call matched to a predefined schema; code-execution-as-tool-use means the model writes arbitrary code that calls APIs directly, trading rigid schemas for expressive but harder-to-sandbox actions; MCP is neither of these, it's a transport and discovery protocol that standardizes how tools get exposed to a harness in the first place. These are independent design axes: a harness can pick any action-space style and still use MCP purely for tool discovery.",
+        "why": "You keep running into all three terms in the same sentence, and separating 'how the model acts' from 'how tools get registered' clarifies decisions you make when wiring up new tools.",
+        "published": null
+      },
+      {
+        "id": "6df691348bab7676",
+        "kind": "foundational",
+        "topic": "Agent harness",
+        "title": "What Makes a Harness a Harness",
+        "url": "http://arxiv.org/abs/2606.10106v1",
+        "source": "arxiv",
+        "summary": "This paper works out necessary and sufficient conditions for the term 'agent harness,' which currently gets used loosely to mean the whole product (Claude Code, Codex CLI), the eval scaffold that runs an agent against tasks, or the runtime middleware itself. It proposes a formal definition that separates these senses and gives criteria for when a wrapper around an LLM actually qualifies as a harness versus a thinner tool-calling loop.",
+        "why": "You use 'agent harness' constantly in your own thinking about Claude Code and similar systems, and this pins down the vocabulary you're otherwise using loosely.",
+        "published": "2026-06-08T19:35:37.000Z"
+      },
+      {
+        "id": "3aacd1631c1957a1",
+        "kind": "adjacent",
+        "topic": "Graph visualization",
+        "title": "A Complete Connectome: Mapping the Fruit Fly Brain",
+        "url": "https://research.google/blog/a-connectomics-milestone-mapping-the-complete-male-fruit-fly-brain/",
+        "source": "rss:Google Research",
+        "summary": "Researchers completed a synaptic-resolution wiring diagram of the entire adult male fruit fly brain, resolving roughly 140,000 neurons and their connections into a queryable structural graph. It's the largest fully-reconstructed biological connectivity graph produced to date.",
+        "why": "It's a useful reference point for the scale and query problems you hit when visualizing large dependency or execution graphs, just from a completely different domain.",
+        "published": "2026-09-03T16:00:03.000Z"
+      }
+    ]
+  }
+]

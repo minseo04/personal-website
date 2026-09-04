@@ -1,0 +1,214 @@
+/* Shares the warm palette of the daily_newsletter dashboard, so the public
+   briefings feel like the same system as the private tool that made them. */
+:root {
+  --bg: #fbfaf8;
+  --panel: #ffffff;
+  --ink: #1b1a18;
+  --muted: #6d6a64;
+  --line: #e5e1da;
+  --accent: #b4552d;
+  --accent-soft: #f3e6de;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.05);
+
+  --k-announcement: #b4552d;
+  --k-new-research: #2f6f5e;
+  --k-concept: #6b4ea8;
+  --k-foundational: #8a6d1f;
+  --k-adjacent: #40607f;
+
+  --measure: 68ch;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #16161a;
+    --panel: #1e1e23;
+    --ink: #eceae6;
+    --muted: #97938c;
+    --line: #32323a;
+    --accent: #e2865a;
+    --accent-soft: #33241c;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
+
+    --k-announcement: #e2865a;
+    --k-new-research: #5fbfa3;
+    --k-concept: #a98fe0;
+    --k-foundational: #d4b45a;
+    --k-adjacent: #7ba3cc;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.65 ui-serif, Georgia, "Times New Roman", serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, nav, .ui {
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 0.6rem; letter-spacing: -0.02em; }
+h2 { font-size: 1.3rem; margin: 2.2rem 0 0.7rem; letter-spacing: -0.01em; }
+h3 { font-size: 1.05rem; margin: 1.6rem 0 0.5rem; }
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+code {
+  font-family: ui-monospace, "Cascadia Code", Menlo, monospace;
+  font-size: 0.88em;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+}
+pre {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 14px 16px;
+  overflow-x: auto;
+}
+pre code { background: none; border: none; padding: 0; }
+
+.wrap { max-width: var(--measure); margin: 0 auto; padding: 0 22px; }
+
+/* ---- site chrome ---- */
+
+.site-head {
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.site-head .wrap {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  flex-wrap: wrap;
+  max-width: 76ch;
+}
+.brand {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  font-size: 15px;
+}
+.site-head nav { display: flex; gap: 16px; margin-left: auto; flex-wrap: wrap; }
+.site-head nav a { color: var(--muted); font-size: 14px; }
+.site-head nav a:hover, .site-head nav a[aria-current='page'] {
+  color: var(--ink);
+  text-decoration: none;
+}
+.site-head nav a[aria-current='page'] { border-bottom: 2px solid var(--accent); }
+
+main { padding: 46px 0 90px; }
+main > .wrap > p:first-of-type { margin-top: 0; }
+
+.site-foot {
+  border-top: 1px solid var(--line);
+  padding: 26px 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+.site-foot .wrap { display: flex; gap: 14px; flex-wrap: wrap; max-width: 76ch; }
+.site-foot .spacer { margin-left: auto; }
+
+/* ---- shared bits ---- */
+
+.lede { font-size: 1.12rem; color: var(--muted); margin-bottom: 1.8rem; }
+.muted { color: var(--muted); }
+.date {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 12.5px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.entry-list { list-style: none; padding: 0; margin: 0; }
+.entry-list li { padding: 18px 0; border-bottom: 1px solid var(--line); }
+.entry-list li:last-child { border-bottom: none; }
+.entry-list h3 { margin: 0 0 4px; font-size: 1.06rem; }
+.entry-list h3 a { color: var(--ink); }
+.entry-list h3 a:hover { color: var(--accent); text-decoration: none; }
+.entry-list p { margin: 5px 0 0; color: var(--muted); font-size: 0.94rem; }
+
+.tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.tag {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 11px;
+  color: var(--muted);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 2px 9px;
+}
+
+.empty-note {
+  border: 1px dashed var(--line);
+  border-radius: 11px;
+  padding: 34px 24px;
+  text-align: center;
+  color: var(--muted);
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 14px;
+}
+
+/* ---- briefing items ---- */
+
+.item {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--kind, var(--line));
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
+}
+.item-head { display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap; }
+.kind {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--kind);
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+.item h3 { font-size: 1.1rem; margin: 8px 0; line-height: 1.35; }
+.item h3 a { color: var(--ink); }
+.item h3 a:hover { color: var(--accent); }
+.item p { margin: 0 0 10px; font-size: 0.96rem; }
+.item .why {
+  background: var(--accent-soft);
+  border-radius: 7px;
+  padding: 9px 12px;
+  font-size: 0.92rem;
+  margin: 0;
+}
+.item .src { font-size: 12px; color: var(--muted); font-family: ui-sans-serif, system-ui, sans-serif; }
+
+.prose img { max-width: 100%; height: auto; border-radius: 8px; }
+.prose blockquote {
+  margin: 1.4rem 0;
+  padding-left: 16px;
+  border-left: 3px solid var(--line);
+  color: var(--muted);
+}
+.prose table { width: 100%; border-collapse: collapse; font-size: 0.94rem; }
+.prose th, .prose td { border: 1px solid var(--line); padding: 7px 10px; text-align: left; }
+.prose hr { border: none; border-top: 1px solid var(--line); margin: 2.2rem 0; }
