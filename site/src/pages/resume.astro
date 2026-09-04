@@ -1,38 +1,77 @@
 ---
 import Base from '../layouts/Base.astro';
 import { SITE } from '../site.ts';
+import { PROJECTS } from '../data/projects.ts';
 
-// TODO: fill these in. Everything here is placeholder scaffolding -- nothing
-// was invented about your actual history.
 const education = [
   {
-    what: 'University of Illinois at Urbana-Champaign',
-    when: 'TODO: expected graduation',
-    detail: 'BS Computer Engineering, minor in Entrepreneurship.',
+    what: 'University of Illinois Urbana-Champaign',
+    when: 'Aug 2023 – Expected Dec 2028',
+    detail: 'B.S. Computer Engineering, minor in Entrepreneurship. Urbana-Champaign, IL.',
+    extra: [
+      'Coursework: Introduction to Electronics, Introduction to Computing, Computer Systems & Programming, Linear Algebra with Computational Applications.',
+      'Currently: Differential Equations, Thermodynamics, Thermal Physics, Quantum Physics.',
+    ],
   },
 ];
 
 const experience = [
-  { what: 'TODO: role, organisation', when: 'TODO', detail: 'TODO: what you owned and what shipped.' },
+  {
+    what: 'Signals Intelligence Operator — Republic of Korea Army',
+    when: 'Oct 2024 – Apr 2026',
+    detail:
+      'Supported 24/7 operations through rotating shifts and structured handoffs in a high-security environment, coordinating with incoming and outgoing shifts under strict operational procedure.',
+  },
+];
+
+const activities = [
+  {
+    what: 'ACM @ UIUC — Agent Fan Club',
+    when: 'Aug 2026 – Present',
+    detail: 'Member.',
+  },
+  {
+    what: 'Korean Engineering and Science Society (KESS)',
+    when: 'Sep 2023 – May 2024',
+    detail:
+      'Built an image classifier distinguishing a scale model of a library from a human figure, and demonstrated it at the UIUC Engineering Open House. Reviewed and discussed AI research papers, including work on deepfake detection.',
+  },
 ];
 
 const skills = [
-  { group: 'Languages', items: ['TypeScript', 'Python'] },
-  { group: 'AI / agents', items: ['agent harnesses', 'tool use', 'evals'] },
-  { group: 'Other', items: ['TODO'] },
+  { group: 'Programming', items: ['TypeScript', 'JavaScript', 'Python', 'C', 'C++', 'Java', 'Rust', 'HTML/CSS'] },
+  { group: 'Frameworks & tools', items: ['React', 'Tauri', 'React Flow', 'Zustand', 'Tailwind CSS', 'Vite', 'Git'] },
+  {
+    group: 'AI & data',
+    items: ['Ollama', 'LLM tool calling', 'OpenAI / Anthropic / Google APIs', 'scikit-learn', 'NumPy', 'Pandas', 'Matplotlib'],
+  },
+  { group: 'Languages', items: ['Korean (native)', 'English (proficient)', 'Chinese (intermediate)'] },
 ];
 ---
 
-<Base title="Resume" description="Background and experience.">
+<Base title="Resume" description="Background, experience and skills.">
   <div class="wrap">
     <h1>Resume</h1>
     <p class="lede">
       {SITE.role}
       {SITE.github && <> · <a href={SITE.github}>GitHub</a></>}
-      {SITE.email && <> · <a href={`mailto:${SITE.email}`}>{SITE.email}</a></>}
     </p>
 
     {SITE.lookingFor && <p>{SITE.lookingFor}</p>}
+
+    <h2>Education</h2>
+    <ul class="entry-list">
+      {
+        education.map((e) => (
+          <li>
+            <h3>{e.what}</h3>
+            <span class="date">{e.when}</span>
+            <p>{e.detail}</p>
+            {e.extra?.map((x) => <p class="muted">{x}</p>)}
+          </li>
+        ))
+      }
+    </ul>
 
     <h2>Experience</h2>
     <ul class="entry-list">
@@ -47,14 +86,28 @@ const skills = [
       }
     </ul>
 
-    <h2>Education</h2>
+    <h2>Projects</h2>
     <ul class="entry-list">
       {
-        education.map((e) => (
+        PROJECTS.map((p) => (
           <li>
-            <h3>{e.what}</h3>
-            <span class="date">{e.when}</span>
-            <p>{e.detail}</p>
+            <h3>{p.href ? <a href={p.href}>{p.name}</a> : p.name}</h3>
+            {p.period && <span class="date">{p.period}</span>}
+            <p>{p.blurb}</p>
+          </li>
+        ))
+      }
+    </ul>
+    <p><a href="/projects">Full write-ups &rarr;</a></p>
+
+    <h2>Activities</h2>
+    <ul class="entry-list">
+      {
+        activities.map((a) => (
+          <li>
+            <h3>{a.what}</h3>
+            <span class="date">{a.when}</span>
+            <p>{a.detail}</p>
           </li>
         ))
       }
@@ -71,9 +124,5 @@ const skills = [
         ))
       }
     </ul>
-
-    <!-- TODO: drop a PDF at public/resume.pdf to enable this link.
-    <p><a href="/resume.pdf">Download as PDF</a></p>
-    -->
   </div>
 </Base>
