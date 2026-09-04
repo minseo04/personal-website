@@ -1,14 +1,11 @@
 /**
  * Everything personal lives here, so it is changed in one place rather than
- * hunted through templates.
- *
- * Only the two fields marked REQUIRED must be filled in. Every link below is
- * optional -- an empty string simply does not render, so the contact row grows
- * as you add to it.
+ * hunted through templates. Every link is optional -- an empty string simply
+ * does not render, so the contact row grows as you add to it.
  */
 export const SITE = {
-  /** REQUIRED. Appears in the header, the page titles and the footer. */
-  name: 'TODO: your name',
+  /** Appears in the header, the page titles and the footer. */
+  name: 'Minseo Kim',
 
   /** The one line under your name. Say what you build, not what you are. */
   role: 'I build developer tools for working with AI agents.',
@@ -27,8 +24,7 @@ export const SITE = {
   // ---- contact ----
   // Starting with GitHub only. Fill any of the others in later and they appear
   // in the footer automatically; no template changes needed.
-  /** REQUIRED. e.g. 'https://github.com/yourhandle' */
-  github: '',
+  github: 'https://github.com/minseo04',
   linkedin: '',
   email: '', // publishing an address invites scrapers; a separate one is wise
   x: '',
